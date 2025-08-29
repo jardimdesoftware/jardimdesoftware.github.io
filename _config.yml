@@ -1,0 +1,24 @@
+title: Jardim de Software
+email: jardim@software.ifpe.edu.br
+description: "Fábrica de software do IFPE - Belo Jardim: templates, projetos e material didático"
+baseurl: "" # leave empty for site root
+url: "https://jardimdesoftware.belojardim.ifpe.edu.br"
+
+# Build settings
+markdown: kramdown
+theme: minima # fallback theme; we use custom layouts/styles below
+
+# Author
+author:
+  name: Jardim de Software
+
+# Social (edit as needed)
+social:
+  github: jardimdesoftware
+  discord: "#" # replace with invite link
+
+# Colors (used in the CSS variables)
+palette:
+  primary: "#2F8F4E" # garden green
+  accent: "#6FCF97"
+  neutral: "#f5f7f6"
