@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Jardim de Software — IFPE Campus Belo Jardim</title>
+    <meta name="description" content="Jardim de Software do IFPE - Campus Belo Jardim: ensino, extensão, pesquisa e inovação em desenvolvimento de soluções digitais." />
+    <meta property="og:title" content="Jardim de Software — IFPE Campus Belo Jardim" />
+    <meta property="og:description" content="Desenvolvimento de soluções de software com foco em ensino, extensão, pesquisa e inovação." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="images/logob.png" />
+    <meta name="theme-color" content="#1E88E5" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#apresentacao">Pular para o conteúdo</a>
+
+    <header class="site-header" role="banner">
+      <div class="container nav-wrap">
+        <a class="brand" href="#apresentacao" aria-label="Início">
+          <img
+            class="logo"
+            src="images/logot.png"
+            alt="Logo Fábrica de Software"
+            decoding="async"
+            fetchpriority="high"
+          />
+            <span class="brand-text" style="font-size: 2rem;">
+            Jardim de Software
+            <br />
+            <small class="brand-subtitle" style="font-size: 1rem; display: block; text-align: center;">IFPE • Campus Belo Jardim</small>
+            </span>
+        </a>
+
+        <button class="nav-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Abrir menu">
+          <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+        </button>
+
+        <nav id="site-nav" class="site-nav" role="navigation">
+          <ul>
+            <li><a href="#apresentacao" class="nav-link">Apresentação</a></li>
+            <li><a href="#equipe" class="nav-link">Equipe</a></li>
+            <li><a href="#projetos" class="nav-link">Projetos</a></li>
+            <li><a href="#noticias" class="nav-link">Notícias</a></li>
+            <li><a href="#publicacoes" class="nav-link">Publicações</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="conteudo">
+      <!-- Hero / Apresentação -->
+      <section id="apresentacao" class="section hero">
+        <div class="container hero-grid">
+          <div class="hero-text will-reveal">
+            <h1>
+              Inovação em <span class="gradient-text">Soluções de Software</span>
+            </h1>
+            <p class="lead">
+              Jardim de Software do IFPE — Campus Belo Jardim. Unimos ensino, extensão, pesquisa e inovação
+              para conceber, projetar e entregar soluções digitais de impacto acadêmico e social.
+            </p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="#projetos">Conheça nossos projetos</a>
+              <a class="btn btn-outline" href="https://github.com/jardimdesoftware/" target="_blank" rel="noopener">Acesse o GitHub</a>
+            </div>
+            <ul class="pill-list">
+              <li>Desenvolvimento Ágil</li>
+              <li>UX/UI</li>
+              <li>Pesquisa & Extensão</li>
+              <li>Parcerias Institucionais</li>
+            </ul>
+          </div>
+          <div class="hero-media will-reveal">
+            <div class="media-card">
+              <img
+                src="images/logob.png"
+                alt="Equipe colaborando em projeto de software educacional"
+                loading="eager"
+                width="900"
+                height="700"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Equipe -->
+      <section id="equipe" class="section">
+        <div class="container">
+          <header class="section-header will-reveal">
+            <h2>Equipe</h2>
+            <p>Docentes e discentes atuando na concepção, desenvolvimento e transferência de tecnologia.</p>
+          </header>
+
+          <div class="grid cards-people">
+            <!-- Docente -->
+            <article class="card person will-reveal">
+              <div class="avatar">
+                <img
+                  src="images/logob.png"
+                  alt="Foto de Docente da Fábrica de Software"
+                  loading="lazy"
+                  width="800"
+                  height="800"
+                />
+              </div>
+              <div class="card-body">
+                <h3>Nome do Docente</h3>
+                <p class="role">Docente • Coordenação</p>
+                <p class="bio">
+                  Doutor(a) em Computação. Atua em Engenharia de Software, Arquitetura, Métodos Ágeis e Inovação.
+                </p>
+              </div>
+            </article>
+
+            <!-- Docente -->
+            <article class="card person will-reveal">
+              <div class="avatar">
+                <img
+                  src="images/logob.png"
+                  alt="Foto de Docente da Fábrica de Software"
+                  loading="lazy"
+                  width="800"
+                  height="800"
+                />
+              </div>
+              <div class="card-body">
+                <h3>Nome do Docente</h3>
+                <p class="role">Docente • UX/UI & Pesquisa</p>
+                <p class="bio">
+                  Mestre/Doutor(a) em IHC e UX. Pesquisa aplicações educacionais e experiência de usuário.
+                </p>
+              </div>
+            </article>
+
+            <!-- Discente -->
+            <article class="card person will-reveal">
+              <div class="avatar">
+                <img
+                  src="images/logob.png"
+                  alt="Foto de Discente da Fábrica de Software"
+                  loading="lazy"
+                  width="800"
+                  height="800"
+                />
+              </div>
+              <div class="card-body">
+                <h3>Nome do Discente</h3>
+                <p class="role">Discente • Desenvolvimento Full-Stack</p>
+                <p class="bio">
+                  Atua no desenvolvimento de APIs, front-end responsivo e automação de testes.
+                </p>
+              </div>
+            </article>
+
+            <!-- Discente -->
+            <article class="card person will-reveal">
+              <div class="avatar">
+                <img
+                  src="images/logob.png"
+                  alt="Foto de Discente da Fábrica de Software"
+                  loading="lazy"
+                  width="800"
+                  height="800"
+                />
+              </div>
+              <div class="card-body">
+                <h3>Nome do Discente</h3>
+                <p class="role">Discente • QA & DevOps</p>
+                <p class="bio">
+                  Foco em qualidade, integração contínua e entrega contínua de software educacional.
+                </p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- Projetos -->
+      <section id="projetos" class="section alt">
+        <div class="container">
+          <header class="section-header will-reveal">
+            <h2>Projetos</h2>
+            <p>Destaques de soluções desenvolvidas, projetos de extensão e inovação.</p>
+          </header>
+
+          <div class="grid cards-projects">
+            <article class="card project will-reveal">
+              <div class="badge">Extensão</div>
+              <img
+                src="images/logob.png"
+                alt="Protótipo de plataforma educacional"
+                loading="lazy"
+                width="1200"
+                height="900"
+              />
+              <div class="card-body">
+                <h3>Plataforma Educacional Aberta</h3>
+                <p>Ambiente web para cursos, atividades e acompanhamento de aprendizagem.</p>
+                <a class="btn btn-link" href="https://github.com/jardimdesoftware/" target="_blank" rel="noopener">Repositório</a>
+              </div>
+            </article>
+
+            <article class="card project will-reveal">
+              <div class="badge badge-blue">Pesquisa</div>
+              <img
+                src="images/logob.png"
+                alt="Dashboard de analytics de aprendizagem"
+                loading="lazy"
+                width="1200"
+                height="900"
+              />
+              <div class="card-body">
+                <h3>Learning Analytics</h3>
+                <p>Coleta, análise e visualização de dados para apoiar decisões pedagógicas.</p>
+                <a class="btn btn-link" href="https://github.com/jardimdesoftware/" target="_blank" rel="noopener">Repositório</a>
+              </div>
+            </article>
+
+            <article class="card project will-reveal">
+              <div class="badge">Inovação</div>
+              <img
+                src="images/logob.png"
+                alt="Aplicativo mobile educacional"
+                loading="lazy"
+                width="1200"
+                height="900"
+              />
+              <div class="card-body">
+                <h3>App Mobile Gamificado</h3>
+                <p>Aplicativo para engajamento em trilhas de aprendizagem com desafios.</p>
+                <a class="btn btn-link" href="https://github.com/jardimdesoftware/" target="_blank" rel="noopener">Repositório</a>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- Notícias -->
+      <section id="noticias" class="section">
+        <div class="container">
+          <header class="section-header will-reveal">
+            <h2>Notícias</h2>
+            <p>Reconhecimentos, menções na mídia e comunicados oficiais.</p>
+          </header>
+
+          <div class="timeline">
+            <article class="timeline-item will-reveal">
+              <div class="timeline-dot"></div>
+              <div class="timeline-card">
+                <h3>Parceria com instituições locais para soluções digitais</h3>
+                <p class="muted">Em breve</p>
+              </div>
+            </article>
+
+            <article class="timeline-item will-reveal">
+              <div class="timeline-dot"></div>
+              <div class="timeline-card">
+                <h3>Seleção de novos membros da Fábrica</h3>
+                <p class="muted">Em breve</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- Publicações -->
+      <section id="publicacoes" class="section alt">
+        <div class="container">
+          <header class="section-header will-reveal">
+            <h2>Publicações</h2>
+            <p>Artigos, relatos técnicos e registros de software.</p>
+          </header>
+
+          <div class="pub-grid">
+            <article class="pub-card will-reveal">
+              <h3>Artigos</h3>
+              <ul class="list">
+                <li>Em breve</li>
+              </ul>
+            </article>
+            <article class="pub-card will-reveal">
+              <h3>Registros de Software</h3>
+              <ul class="list">
+                <li>Em breve</li>
+              </ul>
+            </article>
+            <article class="pub-card will-reveal">
+              <h3>Relatos Técnicos</h3>
+              <ul class="list">
+                <li>Em breve</li>
+              </ul>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-grid">
+        <div>
+          <strong>Fábrica de Software — IFPE</strong>
+          <p class="muted">Campus Belo Jardim • Ensino | Extensão | Pesquisa | Inovação</p>
+        </div>
+        <div class="social">
+          <a class="social-link" href="https://github.com/jardimdesoftware/" target="_blank" rel="noopener" aria-label="GitHub">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 .5a12 12 0 0 0-3.79 23.4c.6.11.82-.26.82-.58v-2.02c-3.34.73-4.04-1.61-4.04-1.61-.55-1.41-1.34-1.79-1.34-1.79-1.09-.75.08-.73.08-.73 1.2.08 1.83 1.24 1.83 1.24 1.07 1.83 2.8 1.3 3.48.99.11-.78.42-1.3.77-1.6-2.66-.3-5.47-1.33-5.47-5.9 0-1.3.46-2.36 1.22-3.19-.12-.3-.53-1.52.12-3.16 0 0 1-.32 3.3 1.22a11.4 11.4 0 0 1 6 0c2.3-1.54 3.3-1.22 3.3-1.22.65 1.64.24 2.86.12 3.16.76.83 1.22 1.89 1.22 3.19 0 4.58-2.81 5.6-5.49 5.9.43.37.82 1.1.82 2.22v3.29c0 .32.21.7.83.58A12 12 0 0 0 12 .5Z"/></svg>
+            GitHub
+          </a>
+          <a class="social-link" href="https://github.com/jardimdesoftware/" target="_blank" rel="noopener" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7 2C4.243 2 2 4.243 2 7v10c0 2.757 2.243 5 5 5h10c2.757 0 5-2.243 5-5V7c0-2.757-2.243-5-5-5H7zm10 2a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3h10zm-5 3.5A5.5 5.5 0 1 0 17.5 13 5.507 5.507 0 0 0 12 7.5zm0 2A3.5 3.5 0 1 1 8.5 13 3.5 3.5 0 0 1 12 9.5zM18 6.2a1 1 0 1 0 1.001 1A1 1 0 0 0 18 6.2z"/></svg>
+            Instagram
+          </a>
+        </div>
+      </div>
+      <div class="container">
+        <p class="tiny muted">© <span id="year"></span> Fábrica de Software — IFPE • Campus Belo Jardim. Todos os direitos reservados.</p>
+      </div>
+    </footer>
+
+    <button id="toTop" class="to-top" aria-label="Voltar ao topo">▲</button>
+
+    <script src="script.js"></script>
+  </body>
+</html>
