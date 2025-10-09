@@ -12,33 +12,81 @@ function initYear(){
   if (y) y.textContent = new Date().getFullYear();
 }
 
+// atualiza a variável CSS com a altura do header
+function setHeaderHeightVar(){
+  const header = document.querySelector('.site-header');
+  const h = header?.offsetHeight || 64;
+  document.documentElement.style.setProperty('--header-h', `${h}px`);
+}
+
 function initMobileNav(){
   const toggle = document.querySelector('.nav-toggle');
   const nav = document.getElementById('site-nav');
   if (!toggle || !nav) return;
 
+  const closeNav = () => {
+    nav.classList.remove('open');
+    toggle.setAttribute('aria-expanded', 'false');
+    document.documentElement.classList.remove('nav-open');
+  };
+
+  const openNav = () => {
+    setHeaderHeightVar();
+    nav.classList.add('open');
+    toggle.setAttribute('aria-expanded', 'true');
+    document.documentElement.classList.add('nav-open');
+  };
+
   toggle.addEventListener('click', () => {
-    const open = nav.classList.toggle('open');
-    toggle.setAttribute('aria-expanded', String(open));
+    const isOpen = nav.classList.contains('open');
+    if (isOpen) closeNav(); else openNav();
   });
 
+  // fecha ao clicar em um link interno
   nav.querySelectorAll('a[href^="#"]').forEach(a =>
     a.addEventListener('click', () => {
-      nav.classList.remove('open');
-      toggle.setAttribute('aria-expanded', 'false');
+      closeNav();
     })
   );
+
+  // fecha com ESC
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeNav();
+  });
+
+  // fecha ao clicar fora
+  document.addEventListener('click', (e) => {
+    if (!nav.classList.contains('open')) return;
+    const t = e.target;
+    if (!nav.contains(t) && !toggle.contains(t)) closeNav();
+  }, true);
+
+  // garante cálculo correto ao girar tela
+  window.addEventListener('orientationchange', () => {
+    setTimeout(() => {
+      setHeaderHeightVar();
+      closeNav();
+    }, 200);
+  });
 }
 
 function initHeaderShadow(){
   const header = document.querySelector('.site-header');
-  const hero = document.querySelector('.hero');
   const onScroll = () => {
     const scrolled = window.scrollY > 8;
     header?.classList.toggle('scrolled', scrolled);
   };
   onScroll();
   document.addEventListener('scroll', onScroll, { passive: true });
+
+  // altura dinâmica do header (carregamento, resize, mudança de layout)
+  setHeaderHeightVar();
+  window.addEventListener('resize', () => setHeaderHeightVar());
+  if (document.fonts?.ready) document.fonts.ready.then(() => setHeaderHeightVar());
+  if (window.ResizeObserver && header){
+    const ro = new ResizeObserver(() => setHeaderHeightVar());
+    ro.observe(header);
+  }
 
   // Ensure sections account for sticky header offset
   document.querySelectorAll('section[id]').forEach(sec => {
