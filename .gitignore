@@ -1,0 +1,30 @@
+# Environment files (root docker-compose env — cada app tem seu próprio .gitignore também)
+.env
+.env.local
+.env.*.local
+
+# Dependências e build (redundante com backend/.gitignore e frontend/.gitignore,
+# mas protege qualquer script/ferramenta rodado a partir da raiz)
+node_modules/
+dist/
+build/
+.next/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDEs e editores
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# Docker
+docker-compose.override.yml
