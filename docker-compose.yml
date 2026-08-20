@@ -1,0 +1,7 @@
+services:
+  site:
+    build: .
+    container_name: jardimdesoftware-site
+    restart: unless-stopped
+    ports:
+      - "8000:80"
