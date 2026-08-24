@@ -1,0 +1,20 @@
+# =============================================================================
+# Dockerfile.dev — Frontend Jardim de Software (desenvolvimento local)
+# =============================================================================
+# Roda `next dev` com hot-reload, pensado só pra rodar localmente via
+# docker-compose.yml. Em produção o frontend NÃO usa Docker — é publicado
+# como export estático no GitHub Pages (ver .github/workflows/deploy-pages.yml).
+# =============================================================================
+
+FROM node:22-alpine
+
+WORKDIR /app
+
+COPY package.json package-lock.json ./
+RUN npm ci
+
+COPY . .
+
+EXPOSE 3002
+
+CMD ["npm", "run", "dev"]

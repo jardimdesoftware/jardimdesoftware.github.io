@@ -1,7 +1,112 @@
+# =============================================================================
+# docker-compose.yml — Jardim de Software | Stack de desenvolvimento local
+# =============================================================================
+# Em PRODUÇÃO, o frontend não usa Docker: ele é publicado como export estático
+# no GitHub Pages (ver .github/workflows/deploy-pages.yml). O serviço
+# "frontend" aqui existe só para facilitar o desenvolvimento local (hot-reload
+# via `next dev` em container) — não é usado no deploy real.
+#
+# Uso:
+#   1. cp .env.example .env   (preencha os valores)
+#   2. docker compose up --build -d
+#   3. Frontend em: http://localhost:3002
+#      API em:      http://localhost:4000/api
+#      Swagger em:  http://localhost:4000/api-docs
+#
+# Lembre de incluir a origem do GitHub Pages (https://jardimdesoftware.github.io)
+# em CORS_ORIGINS no .env quando o frontend estiver publicado lá.
+# =============================================================================
+
 services:
-  site:
-    build: .
-    container_name: jardimdesoftware-site
+  postgres:
+    image: postgres:14-alpine
+    container_name: jardim-postgres
     restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}
+      POSTGRES_DB: ${POSTGRES_DB:-jardim}
+    volumes:
+      - jardim_pgdata:/var/lib/postgresql/data
+    networks:
+      - jardim-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: jardim-backend
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
     ports:
-      - "8000:80"
+      - "${BACKEND_PORT:-4000}:3000"
+    environment:
+      DATABASE_URL: "postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB:-jardim}?schema=public"
+      JWT_SECRET: ${JWT_SECRET:?JWT_SECRET is required}
+      JWT_EXPIRATION: ${JWT_EXPIRATION:-24h}
+      PORT: 3000
+      NODE_ENV: production
+      SWAGGER_ENABLED: ${SWAGGER_ENABLED:-true}
+      CORS_ORIGINS: ${CORS_ORIGINS:-https://jardimdesoftware.github.io}
+      # Usadas apenas se você rodar o seed manualmente (não roda automático no
+      # start do container). A imagem de produção não inclui ts-node/devDeps,
+      # entao rode o seed já compilado: docker compose exec backend node dist/prisma/seed.js
+      SEED_ADMIN_EMAIL: ${SEED_ADMIN_EMAIL:-admin@jardimdesoftware.local}
+      SEED_ADMIN_PASSWORD: ${SEED_ADMIN_PASSWORD:-ChangeMe123!}
+      SEED_ADMIN_NAME: ${SEED_ADMIN_NAME:-Administrador}
+      # Login com Google no painel admin (ver backend/.env.example)
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET:-}
+      GOOGLE_CALLBACK_URL: ${GOOGLE_CALLBACK_URL:-http://localhost:4000/api/auth/google/callback}
+      FRONTEND_URL: ${FRONTEND_URL:-http://localhost:3002}
+    volumes:
+      - jardim_uploads:/usr/app/uploads
+    networks:
+      - jardim-network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    container_name: jardim-frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - "${FRONTEND_PORT:-3002}:3002"
+    environment:
+      # A busca de dados acontece no NAVEGADOR (não dentro do container), já
+      # que o frontend é 100% client-side — por isso aponta pra localhost e
+      # não para "backend" (nome do serviço só resolve dentro da rede Docker).
+      NEXT_PUBLIC_API_URL: http://localhost:${BACKEND_PORT:-4000}/api
+      WATCHPACK_POLLING: "true"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
+    command: ["npm", "run", "dev", "--", "-H", "0.0.0.0"]
+    networks:
+      - jardim-network
+
+volumes:
+  jardim_pgdata:
+    driver: local
+  jardim_uploads:
+    driver: local
+
+networks:
+  jardim-network:
+    driver: bridge
