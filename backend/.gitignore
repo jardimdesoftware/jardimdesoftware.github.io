@@ -33,3 +33,6 @@ npm-debug.log*
 # temp directory
 .temp
 .tmp
+
+# uploads enviados pelo painel admin (persistidos via volume Docker em produção)
+/uploads
