@@ -8,6 +8,7 @@ export class AdminUserMapper {
       email: raw.email,
       password: raw.password,
       name: raw.name,
+      googleId: raw.googleId,
       lastLogin: raw.lastLogin,
       createdAt: raw.createdAt,
       updatedAt: raw.updatedAt,

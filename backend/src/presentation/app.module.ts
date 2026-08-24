@@ -8,6 +8,12 @@ import { AuthPresentationModule } from './modules/auth.module';
 import { JwtAuthGuard } from '@/application/guards/jwt-auth.guard';
 import { ResponseFormatInterceptor } from '@/common/interceptors/response-format.interceptor';
 import { HealthController } from './controllers/health.controller';
+import { TeamMembersPresentationModule } from './modules/team-members.module';
+import { ProjectsPresentationModule } from './modules/projects.module';
+import { NewsPresentationModule } from './modules/news.module';
+import { PublicationsPresentationModule } from './modules/publications.module';
+import { TestimonialsPresentationModule } from './modules/testimonials.module';
+import { SiteStatsPresentationModule } from './modules/site-stats.module';
 
 @Module({
   imports: [
@@ -24,6 +30,12 @@ import { HealthController } from './controllers/health.controller';
     PrismaModule,
     InfrastructureModule,
     AuthPresentationModule,
+    TeamMembersPresentationModule,
+    ProjectsPresentationModule,
+    NewsPresentationModule,
+    PublicationsPresentationModule,
+    TestimonialsPresentationModule,
+    SiteStatsPresentationModule,
   ],
   controllers: [HealthController],
   providers: [

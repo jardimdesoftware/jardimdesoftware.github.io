@@ -7,8 +7,9 @@ export class AdminUserEntity {
 
   id!: ID;
   email!: string;
-  password!: string;
-  name!: string;
+  password?: string | null;
+  name?: string | null;
+  googleId?: string | null;
   lastLogin?: Date | null;
   createdAt!: Date;
   updatedAt!: Date;

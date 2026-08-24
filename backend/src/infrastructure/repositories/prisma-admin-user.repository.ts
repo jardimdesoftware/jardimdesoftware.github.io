@@ -27,6 +27,29 @@ export class PrismaAdminUserRepository implements IAdminUserRepository {
     return AdminUserMapper.toDomain(adminUser);
   }
 
+  async findAll(): Promise<AdminUserEntity[]> {
+    const adminUsers = await this.prisma.adminUser.findMany({
+      orderBy: { createdAt: 'asc' },
+    });
+    return adminUsers.map(AdminUserMapper.toDomain);
+  }
+
+  async create(
+    data: Pick<AdminUserEntity, 'email' | 'name'>,
+  ): Promise<AdminUserEntity> {
+    try {
+      const created = await this.prisma.adminUser.create({
+        data: { email: data.email, name: data.name ?? null },
+      });
+      return AdminUserMapper.toDomain(created);
+    } catch (error) {
+      handlePrismaError(error, {
+        [PrismaErrorCode.UNIQUE_CONSTRAINT_VIOLATION]:
+          'Já existe um administrador com este email.',
+      });
+    }
+  }
+
   async update(
     id: ID,
     data: Partial<AdminUserEntity>,
@@ -38,6 +61,7 @@ export class PrismaAdminUserRepository implements IAdminUserRepository {
           email: data.email ?? undefined,
           password: data.password ?? undefined,
           name: data.name ?? undefined,
+          googleId: data.googleId ?? undefined,
           lastLogin: data.lastLogin ?? undefined,
         },
       });
@@ -49,5 +73,19 @@ export class PrismaAdminUserRepository implements IAdminUserRepository {
           'Já existe um administrador com este email.',
       });
     }
+  }
+
+  async remove(id: ID): Promise<void> {
+    try {
+      await this.prisma.adminUser.delete({ where: { id } });
+    } catch (error) {
+      handlePrismaError(error, {
+        [PrismaErrorCode.RECORD_NOT_FOUND]: `Administrador com ID ${id} não encontrado.`,
+      });
+    }
+  }
+
+  async count(): Promise<number> {
+    return this.prisma.adminUser.count();
   }
 }
