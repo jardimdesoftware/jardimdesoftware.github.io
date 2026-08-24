@@ -1,12 +1,15 @@
 import { NestFactory } from '@nestjs/core';
+import { NestExpressApplication } from '@nestjs/platform-express';
 import { Logger, INestApplication, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface';
 import helmet from 'helmet';
+import { mkdirSync } from 'fs';
 import { HttpExceptionFilter } from '@/common/filters/http-exception.filter';
 import { PrismaExceptionFilter } from '@/common/filters/prisma-exception.filter';
+import { UPLOADS_DIR, UPLOADS_URL_PREFIX } from '@/common/config/uploads.config';
 import { useContainer } from 'class-validator';
 
 /**
@@ -117,13 +120,21 @@ async function logAppStatus(
 }
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, { bufferLogs: true });
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+    bufferLogs: true,
+  });
   const configService = app.get(ConfigService);
 
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
 
   app.use(
     helmet({
+      // A API é consumida por um frontend em outra origem (GitHub Pages em
+      // produção, localhost:3002 em dev) — inclusive as imagens enviadas via
+      // /admin/uploads e servidas em /uploads, embutidas via <img src="...">
+      // no frontend. O padrão do helmet ("same-origin") bloquearia esse
+      // carregamento cross-origin.
+      crossOriginResourcePolicy: { policy: 'cross-origin' },
       contentSecurityPolicy: {
         directives: {
           defaultSrc: ["'self'"],
@@ -138,6 +149,9 @@ async function bootstrap() {
 
   const corsOptions = configureCors(configService);
   app.enableCors(corsOptions);
+
+  mkdirSync(UPLOADS_DIR, { recursive: true });
+  app.useStaticAssets(UPLOADS_DIR, { prefix: UPLOADS_URL_PREFIX });
 
   app.useGlobalFilters(new PrismaExceptionFilter());
   app.useGlobalFilters(new HttpExceptionFilter());

@@ -3,9 +3,13 @@ import {
   Post,
   Get,
   Body,
+  Query,
+  Res,
   HttpCode,
   HttpStatus,
 } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import type { Response } from 'express';
 import {
   ApiBearerAuth,
   ApiBody,
@@ -22,7 +26,10 @@ import { GetUser } from '@/common/decorators/get-user.decorator';
 @ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly configService: ConfigService,
+  ) {}
 
   @Post('login')
   @Public()
@@ -37,6 +44,35 @@ export class AuthController {
   @ResponseMessage('Login realizado com sucesso')
   async login(@Body() loginDto: LoginDto) {
     return this.authService.login(loginDto);
+  }
+
+  @Get('google')
+  @Public()
+  @ApiOperation({ summary: 'Iniciar login com Google (redireciona)' })
+  async googleStart(@Res() res: Response) {
+    res.redirect(this.authService.getGoogleAuthUrl());
+  }
+
+  @Get('google/callback')
+  @Public()
+  @ApiOperation({ summary: 'Callback do OAuth do Google' })
+  async googleCallback(@Query('code') code: string, @Res() res: Response) {
+    const frontendUrl =
+      this.configService.get<string>('FRONTEND_URL') ??
+      'http://localhost:3002';
+
+    try {
+      const { accessToken } = await this.authService.handleGoogleCallback(
+        code,
+      );
+      res.redirect(
+        `${frontendUrl}/admin/google-callback?token=${encodeURIComponent(accessToken)}`,
+      );
+    } catch {
+      res.redirect(
+        `${frontendUrl}/admin/login?error=${encodeURIComponent('Este email não tem acesso ao painel administrativo.')}`,
+      );
+    }
   }
 
   @Get('me')

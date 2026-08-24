@@ -14,6 +14,8 @@ import { NewsPresentationModule } from './modules/news.module';
 import { PublicationsPresentationModule } from './modules/publications.module';
 import { TestimonialsPresentationModule } from './modules/testimonials.module';
 import { SiteStatsPresentationModule } from './modules/site-stats.module';
+import { UploadsPresentationModule } from './modules/uploads.module';
+import { AdminUsersPresentationModule } from './modules/admin-users.module';
 
 @Module({
   imports: [
@@ -36,6 +38,8 @@ import { SiteStatsPresentationModule } from './modules/site-stats.module';
     PublicationsPresentationModule,
     TestimonialsPresentationModule,
     SiteStatsPresentationModule,
+    UploadsPresentationModule,
+    AdminUsersPresentationModule,
   ],
   controllers: [HealthController],
   providers: [

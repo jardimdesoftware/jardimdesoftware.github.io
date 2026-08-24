@@ -10,8 +10,9 @@ datasource db {
 model AdminUser {
   id        Int       @id @default(autoincrement())
   email     String    @unique
-  password  String
-  name      String
+  password  String?
+  name      String?
+  googleId  String?   @unique
   lastLogin DateTime?
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
