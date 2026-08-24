@@ -1,0 +1,80 @@
+name: Deploy frontend to GitHub Pages
+
+# Build o export estatico do Next.js (frontend/out) e publica no GitHub
+# Pages usando o fluxo moderno (actions/deploy-pages), nao o antigo
+# peaceiris/actions-gh-pages baseado em push para uma branch `gh-pages`.
+#
+# Pre-requisito no repo (uma vez so, feito pelo humano no GitHub, nao por
+# este workflow):
+#   - Settings > Pages > Source = "GitHub Actions"
+#   - Settings > Actions > General > Workflow permissions = "Read and
+#     write permissions" (ou confie nos `permissions:` abaixo, que ja
+#     concedem o necessario por job)
+#   - Settings > Secrets and variables > Actions > Variables >
+#     NEXT_PUBLIC_API_URL = URL publica do backend (ex.:
+#     https://api.jardimdesoftware.exemplo.com/api). Sem essa variable
+#     configurada, o build cai no placeholder de frontend/.env.example.
+#     Atualizar essa Variable (sem tocar em codigo) e o suficiente para
+#     apontar o site publicado para um novo host do backend - so requer
+#     rodar o workflow de novo (push em main, ou "Run workflow" manual).
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Build static export
+        env:
+          # Repository Variable (Settings > Actions > Variables) - ver
+          # comentario no topo deste arquivo. Nao e um secret: e apenas a
+          # URL publica da API, exposta no bundle do cliente de qualquer
+          # forma (prefixo NEXT_PUBLIC_).
+          NEXT_PUBLIC_API_URL: ${{ vars.NEXT_PUBLIC_API_URL }}
+        run: npm run build
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: frontend/out
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
