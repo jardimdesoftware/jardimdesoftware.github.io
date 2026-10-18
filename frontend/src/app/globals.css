@@ -62,8 +62,7 @@ html.nav-open {
   overflow: hidden;
 }
 
-/* Gradiente diagonal azul -> verde usado no destaque do titulo do hero,
-   herdado do site legado (.gradient-text em ../styles.css) */
+/* Gradiente diagonal azul -> verde usado no destaque do titulo do hero */
 .gradient-text {
   background-image: linear-gradient(135deg, #1e88e5, #34a853);
   -webkit-background-clip: text;

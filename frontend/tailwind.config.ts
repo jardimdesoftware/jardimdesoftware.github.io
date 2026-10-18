@@ -53,8 +53,7 @@ const config: Config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        // Jardim de Software brand palette (ported from the legacy static
-        // site's styles.css :root variables). Kept distinct from the
+        // Jardim de Software brand palette. Kept distinct from the
         // shadcn semantic tokens above so brand-* utilities read intentionally.
         brand: {
           blue: "#1E88E5",
