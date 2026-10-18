@@ -54,9 +54,7 @@ export class AdminUsersService {
     }
 
     if (id === requestingAdminId) {
-      throw new BusinessException(
-        'Você não pode remover seu próprio acesso.',
-      );
+      throw new BusinessException('Você não pode remover seu próprio acesso.');
     }
 
     const total = await this.adminUserRepository.count();

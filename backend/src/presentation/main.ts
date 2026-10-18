@@ -9,7 +9,10 @@ import helmet from 'helmet';
 import { mkdirSync } from 'fs';
 import { HttpExceptionFilter } from '@/common/filters/http-exception.filter';
 import { PrismaExceptionFilter } from '@/common/filters/prisma-exception.filter';
-import { UPLOADS_DIR, UPLOADS_URL_PREFIX } from '@/common/config/uploads.config';
+import {
+  UPLOADS_DIR,
+  UPLOADS_URL_PREFIX,
+} from '@/common/config/uploads.config';
 import { useContainer } from 'class-validator';
 
 /**

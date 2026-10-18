@@ -58,13 +58,10 @@ export class AuthController {
   @ApiOperation({ summary: 'Callback do OAuth do Google' })
   async googleCallback(@Query('code') code: string, @Res() res: Response) {
     const frontendUrl =
-      this.configService.get<string>('FRONTEND_URL') ??
-      'http://localhost:3002';
+      this.configService.get<string>('FRONTEND_URL') ?? 'http://localhost:3002';
 
     try {
-      const { accessToken } = await this.authService.handleGoogleCallback(
-        code,
-      );
+      const { accessToken } = await this.authService.handleGoogleCallback(code);
       res.redirect(
         `${frontendUrl}/admin/google-callback?token=${encodeURIComponent(accessToken)}`,
       );

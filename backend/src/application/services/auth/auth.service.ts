@@ -80,7 +80,9 @@ export class AuthService {
       this.logger.warn(
         `Falha ao trocar code do Google por token: ${tokenResponse.status}`,
       );
-      throw new UnauthorizedException('Não foi possível autenticar com o Google.');
+      throw new UnauthorizedException(
+        'Não foi possível autenticar com o Google.',
+      );
     }
 
     const { id_token } = (await tokenResponse.json()) as { id_token: string };
@@ -157,7 +159,11 @@ export class AuthService {
 
     return {
       accessToken,
-      user: { id: admin.id, email: admin.email, name: admin.name ?? admin.email },
+      user: {
+        id: admin.id,
+        email: admin.email,
+        name: admin.name ?? admin.email,
+      },
     };
   }
 }

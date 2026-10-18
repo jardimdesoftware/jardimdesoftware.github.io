@@ -24,7 +24,10 @@ module.exports = [
     rules: {
       ...tsPlugin.configs.recommended.rules,
       ...prettierConfig.rules,
-      'prettier/prettier': ['error', { singleQuote: true, trailingComma: 'all' }],
+      'prettier/prettier': [
+        'error',
+        { singleQuote: true, trailingComma: 'all' },
+      ],
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/interface-name-prefix': 'off',
       '@typescript-eslint/explicit-function-return-type': 'off',
