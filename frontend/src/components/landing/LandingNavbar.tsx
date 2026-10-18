@@ -95,7 +95,7 @@ export function LandingNavbar() {
       )}
     >
       <div className="container flex h-16 items-center justify-between">
-        <a
+        <Link
           href="/#inicio"
           onClick={() => scrollToSection("inicio")}
           className="flex items-center gap-2"
@@ -116,7 +116,7 @@ export function LandingNavbar() {
               IFPE • Campus Belo Jardim
             </span>
           </span>
-        </a>
+        </Link>
 
         <nav className="hidden items-center gap-1 md:flex">
           {NAV_LINKS.map((link) => {

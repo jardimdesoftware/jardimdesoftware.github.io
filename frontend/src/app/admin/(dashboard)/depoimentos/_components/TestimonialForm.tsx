@@ -1,6 +1,6 @@
 "use client";
 
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 
@@ -38,8 +38,8 @@ export function TestimonialForm({
 
   const {
     register,
+    control,
     handleSubmit,
-    watch,
     setValue,
     formState: { errors },
   } = useForm<TestimonialFormInput, unknown, TestimonialFormData>({
@@ -52,8 +52,8 @@ export function TestimonialForm({
     },
   });
 
-  const featured = watch("featured") ?? true;
-  const authorPhotoUrl = (watch("authorPhotoUrl") as string | undefined) ?? "";
+  const featured = useWatch({ control, name: "featured" }) ?? true;
+  const authorPhotoUrl = (useWatch({ control, name: "authorPhotoUrl" }) as string | undefined) ?? "";
 
   return (
     <form
