@@ -88,7 +88,8 @@ async function seedContent() {
     create: {
       slug: 'sistema-de-controle-de-estoque',
       title: 'Sistema de Controle de Estoque',
-      summary: 'Aplicação para controle de estoque de pequenos comércios locais.',
+      summary:
+        'Aplicação para controle de estoque de pequenos comércios locais.',
       description:
         'Sistema desenvolvido em parceria com comerciantes de Belo Jardim para gestão simplificada de estoque.',
       status: ProjectStatus.CONCLUIDO,
@@ -149,7 +150,8 @@ async function seedContent() {
     create: {
       slug: 'jardim-de-software-lanca-novo-site',
       title: 'Jardim de Software lança novo site',
-      excerpt: 'Grupo de extensão do IFPE Campus Belo Jardim renova sua presença online.',
+      excerpt:
+        'Grupo de extensão do IFPE Campus Belo Jardim renova sua presença online.',
       body: 'O Jardim de Software lançou uma nova versão do seu site institucional, com uma área administrativa para facilitar a divulgação de projetos, notícias e integrantes.',
       published: true,
       publishedAt: new Date(),
@@ -158,7 +160,10 @@ async function seedContent() {
   });
 
   const testimonialExists = await prisma.testimonial.findFirst({
-    where: { teamMemberId: discente1.id, projectId: projectEmDesenvolvimento.id },
+    where: {
+      teamMemberId: discente1.id,
+      projectId: projectEmDesenvolvimento.id,
+    },
   });
   if (!testimonialExists) {
     await prisma.testimonial.create({

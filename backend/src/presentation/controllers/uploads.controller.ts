@@ -17,9 +17,17 @@ import { diskStorage } from 'multer';
 import { randomUUID } from 'crypto';
 import { extname } from 'path';
 import { ResponseMessage } from '@/common/decorators/response-message.decorator';
-import { UPLOADS_DIR, UPLOADS_URL_PREFIX } from '@/common/config/uploads.config';
+import {
+  UPLOADS_DIR,
+  UPLOADS_URL_PREFIX,
+} from '@/common/config/uploads.config';
 
-const ALLOWED_MIME_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
+const ALLOWED_MIME_TYPES = [
+  'image/jpeg',
+  'image/png',
+  'image/webp',
+  'image/gif',
+];
 const MAX_FILE_SIZE_BYTES = 5 * 1024 * 1024;
 
 @ApiTags('Uploads (Admin)')

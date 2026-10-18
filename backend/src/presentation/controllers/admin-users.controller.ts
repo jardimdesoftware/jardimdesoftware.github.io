@@ -1,5 +1,18 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post } from '@nestjs/common';
-import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  ParseIntPipe,
+  Post,
+} from '@nestjs/common';
+import {
+  ApiBearerAuth,
+  ApiOperation,
+  ApiResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { AdminUsersService } from '@/application/services/admin-users/admin-users.service';
 import { CreateAdminUserDto } from '@/application/dtos/admin-users/create-admin-user.dto';
 import { ResponseMessage } from '@/common/decorators/response-message.decorator';
@@ -13,14 +26,19 @@ export class AdminUsersController {
 
   @Get()
   @ApiOperation({ summary: 'Listar quem tem acesso ao painel' })
-  @ApiResponse({ status: 200, description: 'Administradores listados com sucesso' })
+  @ApiResponse({
+    status: 200,
+    description: 'Administradores listados com sucesso',
+  })
   @ResponseMessage('Administradores listados com sucesso')
   async findAll() {
     return this.adminUsersService.findAll();
   }
 
   @Post()
-  @ApiOperation({ summary: 'Liberar acesso para um novo email (login via Google)' })
+  @ApiOperation({
+    summary: 'Liberar acesso para um novo email (login via Google)',
+  })
   @ApiResponse({ status: 201, description: 'Acesso liberado com sucesso' })
   @ResponseMessage('Acesso liberado com sucesso')
   async create(@Body() dto: CreateAdminUserDto) {
