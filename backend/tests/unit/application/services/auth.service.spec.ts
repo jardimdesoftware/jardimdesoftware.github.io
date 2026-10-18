@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
 import { AuthService } from '@/application/services/auth/auth.service';
 import {
   IAdminUserRepository as IAdminUserRepositorySymbol,
@@ -51,6 +52,12 @@ describe('AuthService', () => {
           provide: JwtService,
           useValue: {
             sign: jest.fn(),
+          },
+        },
+        {
+          provide: ConfigService,
+          useValue: {
+            get: jest.fn(),
           },
         },
       ],
