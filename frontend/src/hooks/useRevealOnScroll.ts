@@ -3,8 +3,7 @@
 import { useEffect, useRef } from "react";
 
 /**
- * Porta do initRevealOnScroll() do script.js legado: quando o elemento
- * referenciado entra na viewport, recebe a classe `.revealed`, que dispara
+ * Quando o elemento referenciado entra na viewport, recebe a classe `.revealed`, que dispara
  * a transicao definida em `.will-reveal` (src/app/globals.css). Use o ref
  * retornado em conjunto com `className="will-reveal"`.
  */

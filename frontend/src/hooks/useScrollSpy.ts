@@ -3,8 +3,7 @@
 import { useEffect, useState } from "react";
 
 /**
- * Porta do initScrollSpy() do script.js legado: observa as sections cujo
- * `id` esta em `ids` e retorna qual delas esta atualmente "ativa" na
+ * Observa as sections cujo `id` esta em `ids` e retorna qual delas esta atualmente "ativa" na
  * viewport, para destacar o link correspondente na navbar.
  */
 export function useScrollSpy(ids: readonly string[]) {
