@@ -1,6 +1,6 @@
 "use client";
 
-import { useForm, useFieldArray } from "react-hook-form";
+import { useForm, useFieldArray, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { Plus, Trash2 } from "lucide-react";
@@ -35,7 +35,6 @@ export function ProjectForm({
     register,
     control,
     handleSubmit,
-    watch,
     setValue,
     formState: { errors },
   } = useForm<ProjectFormInput, unknown, ProjectFormData>({
@@ -55,8 +54,8 @@ export function ProjectForm({
     name: "members",
   });
 
-  const featured = watch("featured") ?? false;
-  const imageUrl = (watch("imageUrl") as string | undefined) ?? "";
+  const featured = useWatch({ control, name: "featured" }) ?? false;
+  const imageUrl = (useWatch({ control, name: "imageUrl" }) as string | undefined) ?? "";
 
   return (
     <form

@@ -1,6 +1,6 @@
 "use client";
 
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 
@@ -33,8 +33,8 @@ export function TeamMemberForm({
   const router = useRouter();
   const {
     register,
+    control,
     handleSubmit,
-    watch,
     setValue,
     formState: { errors },
   } = useForm<TeamMemberFormInput, unknown, TeamMemberFormData>({
@@ -48,8 +48,8 @@ export function TeamMemberForm({
     },
   });
 
-  const active = watch("active") ?? true;
-  const photoUrl = (watch("photoUrl") as string | undefined) ?? "";
+  const active = useWatch({ control, name: "active" }) ?? true;
+  const photoUrl = (useWatch({ control, name: "photoUrl" }) as string | undefined) ?? "";
 
   return (
     <form

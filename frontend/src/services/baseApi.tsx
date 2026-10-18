@@ -48,6 +48,9 @@ apiBase.interceptors.response.use(
       window.location.pathname !== "/admin/login"
     ) {
       clearAuthToken();
+      // Navegacao completa de proposito: fora do React nao ha router, e o
+      // reload descarta o cache do React Query da sessao expirada.
+      // eslint-disable-next-line @next/next/no-location-assign-relative-destination
       window.location.href = "/admin/login";
     }
     return Promise.reject(error);

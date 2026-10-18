@@ -1,6 +1,6 @@
 "use client";
 
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 
@@ -32,8 +32,8 @@ export function NewsPostForm({
 
   const {
     register,
+    control,
     handleSubmit,
-    watch,
     setValue,
     formState: { errors },
   } = useForm<NewsPostFormInput, unknown, NewsPostFormData>({
@@ -45,8 +45,8 @@ export function NewsPostForm({
     },
   });
 
-  const published = watch("published") ?? false;
-  const coverImageUrl = (watch("coverImageUrl") as string | undefined) ?? "";
+  const published = useWatch({ control, name: "published" }) ?? false;
+  const coverImageUrl = (useWatch({ control, name: "coverImageUrl" }) as string | undefined) ?? "";
 
   return (
     <form
