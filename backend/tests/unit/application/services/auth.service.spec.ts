@@ -103,6 +103,7 @@ describe('AuthService', () => {
       expect(jwtService.sign).toHaveBeenCalledWith({
         sub: 1,
         email: 'admin@jardimdesoftware.local',
+        role: Role.ADMIN,
       });
       expect(result).toEqual({
         accessToken: 'mock-jwt-token',
@@ -110,6 +111,7 @@ describe('AuthService', () => {
           id: 1,
           email: 'admin@jardimdesoftware.local',
           name: 'Administrador',
+          role: Role.ADMIN,
         },
       });
     });

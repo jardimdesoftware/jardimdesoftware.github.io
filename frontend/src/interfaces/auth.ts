@@ -2,6 +2,7 @@ export interface AdminUser {
   id: number;
   email: string;
   name: string;
+  role: "ADMIN" | "EDITOR";
 }
 
 export interface LoginCredentials {

@@ -9,6 +9,7 @@ import { ConfigService } from '@nestjs/config';
 import { IAdminUserRepository } from '@/domain/repositories/admin-user.repository';
 import { IHashService } from '@/application/ports/hash.service';
 import { LoginDto } from '@/application/dtos/auth/login.dto';
+import { Role } from '@/domain/entities/admin-user.entity';
 
 const GOOGLE_AUTH_URL = 'https://accounts.google.com/o/oauth2/v2/auth';
 const GOOGLE_TOKEN_URL = 'https://oauth2.googleapis.com/token';
@@ -24,6 +25,7 @@ export interface AuthenticatedAdmin {
   id: number;
   email: string;
   name: string;
+  role: Role;
 }
 
 export interface LoginResult {
@@ -149,10 +151,11 @@ export class AuthService {
     id: number;
     email: string;
     name?: string | null;
+    role: Role;
   }): Promise<LoginResult> {
     await this.adminUserRepository.update(admin.id, { lastLogin: new Date() });
 
-    const payload = { sub: admin.id, email: admin.email };
+    const payload = { sub: admin.id, email: admin.email, role: admin.role };
     const accessToken = this.jwtService.sign(payload);
 
     this.logger.log(`Administrador autenticado: ${admin.email}`);
@@ -163,6 +166,7 @@ export class AuthService {
         id: admin.id,
         email: admin.email,
         name: admin.name ?? admin.email,
+        role: admin.role,
       },
     };
   }
