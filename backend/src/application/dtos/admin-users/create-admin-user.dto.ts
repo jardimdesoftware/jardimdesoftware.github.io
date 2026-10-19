@@ -1,5 +1,12 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { IsEmail, IsOptional, IsString, MaxLength } from 'class-validator';
+import {
+  IsEmail,
+  IsEnum,
+  IsOptional,
+  IsString,
+  MaxLength,
+} from 'class-validator';
+import { Role } from '@/domain/entities/admin-user.entity';
 
 export class CreateAdminUserDto {
   @ApiProperty({
@@ -15,4 +22,13 @@ export class CreateAdminUserDto {
   @IsString()
   @MaxLength(200)
   name?: string;
+
+  @ApiPropertyOptional({
+    description: 'Papel do administrador (padrão: EDITOR)',
+    enum: Object.values(Role),
+    default: Role.EDITOR,
+  })
+  @IsOptional()
+  @IsEnum(Role)
+  role?: Role;
 }

@@ -3,10 +3,12 @@ import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { IAdminUserRepository } from '@/domain/repositories/admin-user.repository';
+import { Role } from '@/domain/entities/admin-user.entity';
 
 interface JwtPayload {
   sub: number;
   email: string;
+  role?: Role;
 }
 
 @Injectable()
@@ -30,6 +32,12 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       throw new UnauthorizedException('Administrador não encontrado.');
     }
 
-    return { id: admin.id, email: admin.email, name: admin.name };
+    // O papel vem do banco, não do token: rebaixar alguém vale na hora.
+    return {
+      id: admin.id,
+      email: admin.email,
+      name: admin.name,
+      role: admin.role,
+    };
   }
 }

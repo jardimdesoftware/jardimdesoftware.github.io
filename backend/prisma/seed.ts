@@ -1,4 +1,4 @@
-import { PrismaClient, ProjectStatus, TeamRole } from '@prisma/client';
+import { PrismaClient, ProjectStatus, Role, TeamRole } from '@prisma/client';
 import * as bcrypt from 'bcryptjs';
 
 const prisma = new PrismaClient();
@@ -17,6 +17,7 @@ async function seedAdminUser() {
       email,
       password: passwordHash,
       name,
+      role: Role.ADMIN,
     },
   });
 

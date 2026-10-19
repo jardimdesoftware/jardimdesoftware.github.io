@@ -4,6 +4,7 @@ import { CreateAdminUserDto } from '@/application/dtos/admin-users/create-admin-
 import { EntityNotFoundException } from '@/common/exceptions/entity-not-found.exception';
 import { BusinessException } from '@/common/exceptions/business.exception';
 import { ID } from '@/domain/common/types';
+import { Role } from '@/domain/entities/admin-user.entity';
 
 @Injectable()
 export class AdminUsersService {
@@ -31,6 +32,7 @@ export class AdminUsersService {
     name?: string | null;
     password?: string | null;
     googleId?: string | null;
+    role: Role;
     lastLogin?: Date | null;
     createdAt: Date;
   }) {
@@ -40,6 +42,7 @@ export class AdminUsersService {
       name: admin.name,
       hasPassword: Boolean(admin.password),
       hasGoogle: Boolean(admin.googleId),
+      role: admin.role,
       lastLogin: admin.lastLogin,
       createdAt: admin.createdAt,
     };
@@ -57,14 +60,42 @@ export class AdminUsersService {
       throw new BusinessException('Você não pode remover seu próprio acesso.');
     }
 
-    const total = await this.adminUserRepository.count();
-    if (total <= 1) {
-      throw new BusinessException(
-        'Não é possível remover o único administrador restante.',
-      );
-    }
+    await this.assertNotLastAdmin(admin.role);
 
     await this.adminUserRepository.remove(id);
     this.logger.log(`Acesso removido: ${admin.email}`);
+  }
+
+  async updateRole(id: ID, role: Role, requestingAdminId: ID) {
+    const admin = await this.adminUserRepository.findById(id);
+    if (!admin) {
+      throw new EntityNotFoundException(
+        `Administrador com ID ${id} não encontrado.`,
+      );
+    }
+
+    if (id === requestingAdminId) {
+      throw new BusinessException('Você não pode alterar o seu próprio papel.');
+    }
+
+    if (admin.role !== role && role !== Role.ADMIN) {
+      await this.assertNotLastAdmin(admin.role);
+    }
+
+    const updated = await this.adminUserRepository.update(id, { role });
+    this.logger.log(`Papel de ${updated.email} alterado para ${role}`);
+    return this.toListItem(updated);
+  }
+
+  /** Nunca deixa o painel sem nenhum ADMIN (remoção ou rebaixamento). */
+  private async assertNotLastAdmin(currentRole: Role) {
+    if (currentRole !== Role.ADMIN) return;
+
+    const admins = await this.adminUserRepository.countByRole(Role.ADMIN);
+    if (admins <= 1) {
+      throw new BusinessException(
+        'Não é possível remover ou rebaixar o único administrador restante.',
+      );
+    }
   }
 }

@@ -6,6 +6,7 @@ import { PrismaModule } from '@/infrastructure/prisma/prisma.module';
 import { InfrastructureModule } from '@/infrastructure/infrastructure.module';
 import { AuthPresentationModule } from './modules/auth.module';
 import { JwtAuthGuard } from '@/application/guards/jwt-auth.guard';
+import { RolesGuard } from '@/application/guards/roles.guard';
 import { ResponseFormatInterceptor } from '@/common/interceptors/response-format.interceptor';
 import { HealthController } from './controllers/health.controller';
 import { TeamMembersPresentationModule } from './modules/team-members.module';
@@ -46,6 +47,10 @@ import { AdminUsersPresentationModule } from './modules/admin-users.module';
     {
       provide: APP_GUARD,
       useClass: JwtAuthGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
     },
     {
       provide: APP_INTERCEPTOR,

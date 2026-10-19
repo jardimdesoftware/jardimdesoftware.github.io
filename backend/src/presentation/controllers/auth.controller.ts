@@ -22,6 +22,7 @@ import { LoginDto } from '@/application/dtos/auth/login.dto';
 import { Public } from '@/common/decorators/public.decorator';
 import { ResponseMessage } from '@/common/decorators/response-message.decorator';
 import { GetUser } from '@/common/decorators/get-user.decorator';
+import { Role } from '@/domain/entities/admin-user.entity';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -81,7 +82,9 @@ export class AuthController {
   })
   @ApiResponse({ status: 401, description: 'Não autenticado.' })
   @ResponseMessage('Administrador autenticado')
-  async me(@GetUser() user: { id: number; email: string; name: string }) {
+  async me(
+    @GetUser() user: { id: number; email: string; name: string; role: Role },
+  ) {
     return user;
   }
 }

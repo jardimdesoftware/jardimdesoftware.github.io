@@ -10,6 +10,8 @@ import { SiteStatsService } from '@/application/services/site-stats/site-stats.s
 import { SiteStatItemDto } from '@/application/dtos/site-stats/site-stat-item.dto';
 import { Public } from '@/common/decorators/public.decorator';
 import { ResponseMessage } from '@/common/decorators/response-message.decorator';
+import { Roles } from '@/common/decorators/roles.decorator';
+import { Role } from '@/domain/entities/admin-user.entity';
 
 @ApiTags('Estatísticas do site')
 @Controller('site-stats')
@@ -31,6 +33,7 @@ export class SiteStatsController {
 
 @ApiTags('Estatísticas do site (Admin)')
 @ApiBearerAuth()
+@Roles(Role.ADMIN)
 @Controller('admin/site-stats')
 export class SiteStatsAdminController {
   constructor(private readonly siteStatsService: SiteStatsService) {}

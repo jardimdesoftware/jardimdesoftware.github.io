@@ -11,7 +11,7 @@ import {
   IHashService as IHashServiceSymbol,
   type IHashService,
 } from '@/application/ports/hash.service';
-import { AdminUserEntity } from '@/domain/entities/admin-user.entity';
+import { AdminUserEntity, Role } from '@/domain/entities/admin-user.entity';
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -24,6 +24,7 @@ describe('AuthService', () => {
     email: 'admin@jardimdesoftware.local',
     password: 'hashedPassword',
     name: 'Administrador',
+    role: Role.ADMIN,
     lastLogin: null,
     createdAt: new Date(),
     updatedAt: new Date(),
@@ -102,6 +103,7 @@ describe('AuthService', () => {
       expect(jwtService.sign).toHaveBeenCalledWith({
         sub: 1,
         email: 'admin@jardimdesoftware.local',
+        role: Role.ADMIN,
       });
       expect(result).toEqual({
         accessToken: 'mock-jwt-token',
@@ -109,6 +111,7 @@ describe('AuthService', () => {
           id: 1,
           email: 'admin@jardimdesoftware.local',
           name: 'Administrador',
+          role: Role.ADMIN,
         },
       });
     });
