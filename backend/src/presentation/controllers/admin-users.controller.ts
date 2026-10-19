@@ -5,6 +5,7 @@ import {
   Get,
   Param,
   ParseIntPipe,
+  Patch,
   Post,
 } from '@nestjs/common';
 import {
@@ -17,9 +18,13 @@ import { AdminUsersService } from '@/application/services/admin-users/admin-user
 import { CreateAdminUserDto } from '@/application/dtos/admin-users/create-admin-user.dto';
 import { ResponseMessage } from '@/common/decorators/response-message.decorator';
 import { GetUser } from '@/common/decorators/get-user.decorator';
+import { Roles } from '@/common/decorators/roles.decorator';
+import { Role } from '@/domain/entities/admin-user.entity';
+import { UpdateAdminUserRoleDto } from '@/application/dtos/admin-users/update-admin-user-role.dto';
 
 @ApiTags('Administradores (Admin)')
 @ApiBearerAuth()
+@Roles(Role.ADMIN)
 @Controller('admin/admin-users')
 export class AdminUsersController {
   constructor(private readonly adminUsersService: AdminUsersService) {}
@@ -43,6 +48,19 @@ export class AdminUsersController {
   @ResponseMessage('Acesso liberado com sucesso')
   async create(@Body() dto: CreateAdminUserDto) {
     return this.adminUsersService.create(dto);
+  }
+
+  @Patch(':id/role')
+  @ApiOperation({ summary: 'Alterar o papel de um administrador' })
+  @ApiResponse({ status: 200, description: 'Papel alterado com sucesso' })
+  @ApiResponse({ status: 403, description: 'Apenas ADMIN pode alterar papéis' })
+  @ResponseMessage('Papel alterado com sucesso')
+  async updateRole(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() dto: UpdateAdminUserRoleDto,
+    @GetUser('id') requestingAdminId: number,
+  ) {
+    return this.adminUsersService.updateRole(id, dto.role, requestingAdminId);
   }
 
   @Delete(':id')

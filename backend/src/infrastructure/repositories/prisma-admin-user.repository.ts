@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '@/infrastructure/prisma/prisma.service';
 import { IAdminUserRepository } from '@/domain/repositories/admin-user.repository';
 import { ID } from '@/domain/common/types';
-import { AdminUserEntity } from '@/domain/entities/admin-user.entity';
+import { AdminUserEntity, Role } from '@/domain/entities/admin-user.entity';
 import {
   handlePrismaError,
   PrismaErrorCode,
@@ -35,11 +35,11 @@ export class PrismaAdminUserRepository implements IAdminUserRepository {
   }
 
   async create(
-    data: Pick<AdminUserEntity, 'email' | 'name'>,
+    data: Pick<AdminUserEntity, 'email' | 'name'> & { role?: Role },
   ): Promise<AdminUserEntity> {
     try {
       const created = await this.prisma.adminUser.create({
-        data: { email: data.email, name: data.name ?? null },
+        data: { email: data.email, name: data.name ?? null, role: data.role },
       });
       return AdminUserMapper.toDomain(created);
     } catch (error) {
@@ -62,6 +62,7 @@ export class PrismaAdminUserRepository implements IAdminUserRepository {
           password: data.password ?? undefined,
           name: data.name ?? undefined,
           googleId: data.googleId ?? undefined,
+          role: data.role ?? undefined,
           lastLogin: data.lastLogin ?? undefined,
         },
       });
@@ -87,5 +88,9 @@ export class PrismaAdminUserRepository implements IAdminUserRepository {
 
   async count(): Promise<number> {
     return this.prisma.adminUser.count();
+  }
+
+  async countByRole(role: Role): Promise<number> {
+    return this.prisma.adminUser.count({ where: { role } });
   }
 }
